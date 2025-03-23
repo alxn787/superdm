@@ -1,10 +1,26 @@
-import { BackgroundLines } from "@/components/ui/background-lines";
-import Image from "next/image";
+'use client';
+import { useWallet } from "@solana/wallet-adapter-react";
+import dynamic from 'next/dynamic'
+import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
+import Landing from "@/components/Landing";
+
+
 
 export default function Home() {
+ const { wallets, connected } = useWallet();
+  useEffect(() => {
+    if(connected){
+      redirect('/dashboard');
+    }
+  },[connected])
+
   return (
-    <BackgroundLines>
-      <h1 className="bg-gradient-to-r from-slate-300 to-slate-600 bg-clip-text text-transparent text-4xl">Hello there</h1>
-    </BackgroundLines>
+
+    <BackgroundBeamsWithCollision>
+          <Landing/>
+    </BackgroundBeamsWithCollision>
+
   );
 }

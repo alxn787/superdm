@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarDemo } from '@/components/sidebardemo';
 import { useWallet } from '@solana/wallet-adapter-react';
 import dynamic from 'next/dynamic';
 import { redirect } from 'next/navigation';
@@ -9,7 +10,7 @@ export default function Dashboard() {
 
     const { wallets, connected, wallet } = useWallet();
 
-     const WalletMultiButtonDynamic = dynamic(
+    const WalletMultiButtonDynamic = dynamic(
       async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
       { ssr: false }
     );
@@ -20,9 +21,6 @@ export default function Dashboard() {
         }
     },[connected])
     return (
-        <div>
-            <WalletMultiButtonDynamic></WalletMultiButtonDynamic>
-           { JSON.stringify(wallet?.adapter.publicKey)}
-        </div>
+     <SidebarDemo/>
     );
 }

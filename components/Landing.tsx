@@ -3,8 +3,27 @@ import { GlowingEffect } from './ui/glowing-effect';
 import { HoverBorderGradient } from './hover-border-gradient';
 import { GlowingEffectDemo } from './demo';
 import { Button } from './moving-border';
+import { useEffect } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { redirect } from "next/navigation";
+import axios from 'axios';
+
 
 export default function Landing() {
+
+     const { wallet, connected } = useWallet();
+
+      useEffect(() => {
+        if(connected){
+            getUserFromDb();
+            redirect('/dashboard');
+        }
+      },[connected])
+
+      async function getUserFromDb(){
+         await axios.post('/api/user',{publicKey:wallet?.adapter.publicKey?.toString()}).then(res=>alert(res.data));
+      }
+
      const WalletMultiButtonDynamic = dynamic(
       async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
       { ssr: false }
@@ -25,21 +44,51 @@ export default function Landing() {
       <div>
       <WalletMultiButtonDynamic/>
       </div>
-      <div className='h-6'></div>
-      <div className='flex justify-center'>
-        <GlowingEffectDemo/>
-        <Button className='bg-black hover:bg-gradient-to-b from-black via-black to-cyan-400/20 rounded-sm '>
-        <div>
-            <div>
-                Hello there
+      <div className='h-8'></div>
+        <div className='flex justify-between'>
+
+            <div className='m-4'>
+                <Button className='bg-black hover:bg-gradient-to-b from-black via-black to-cyan-400/20 rounded-sm '>
+                    <div>
+                        <div>
+                            Hello there
+                        </div>
+                        <div>
+                            Poda pulle
+                        </div>
+                    
+                    </div>
+                </Button>
             </div>
-            <div>
-                Poda pulle
+            <div className='m-4'>
+                <Button className='bg-black hover:bg-gradient-to-b from-black via-black to-cyan-400/20 rounded-sm '>
+                    <div>
+                        <div>
+                            Hello there
+                        </div>
+                        <div>
+                            Poda pulle
+                        </div>
+                    
+                    </div>
+                </Button>
             </div>
-        
+            <div className='m-4'>
+                <Button className='bg-black hover:bg-gradient-to-b from-black via-black to-cyan-400/20 rounded-sm '>
+                    <div>
+                        <div>
+                            Hello there
+                        </div>
+                        <div>
+                            Poda pulle
+                        </div>
+                    
+                    </div>
+                </Button>
+            </div>
+            
+
         </div>
-        </Button>
-      </div>
     </div>
   );
 }

@@ -1,6 +1,18 @@
+'use client';
+import { useEffect } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { redirect } from "next/navigation";
 import { CreatorCard } from "@/components/CreatorCard";
 
 export default function Explore (){
+  const { wallet, connected} = useWallet();
+
+      useEffect(() => {
+          if(!connected){
+              redirect('/');
+          }
+      },[connected])
+
     const creators = [
         {
             name: "Author Name 1",

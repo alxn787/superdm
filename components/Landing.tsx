@@ -15,14 +15,10 @@ export default function Landing() {
 
       useEffect(() => {
         if(connected){
-            getUserFromDb();
             redirect('/dashboard');
         }
       },[connected])
 
-      async function getUserFromDb(){
-         await axios.post('/api/user',{publicKey:wallet?.adapter.publicKey?.toString()}).then(res=>alert(res.data));
-      }
 
      const WalletMultiButtonDynamic = dynamic(
       async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,

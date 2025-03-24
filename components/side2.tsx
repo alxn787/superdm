@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconSettings,
@@ -8,11 +8,27 @@ import {
 import { motion } from "motion/react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { DashboardComponent } from "./Dashboard";
 import { PlusIcon, SearchIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useWallet } from "@solana/wallet-adapter-react";
+import axios from "axios";
 
 export function SidebarDemo2({children}:any) {
-  const [selectedPage, setSelectedPage] = useState("dashboard");
+    const { wallet, connected} = useWallet();
+
+
+    useEffect(() => {   
+        if(!connected){
+            router.push('/');    
+        }
+    },[])
+
+
+   const WalletMultiButtonDynamic = dynamic(
+      async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+      { ssr: false }
+    );
 
   const links = [
     { label: "Explore", icon: <SearchIcon className="h-5 w-5" />, page: "explore", href: "/explore" },
@@ -20,6 +36,7 @@ export function SidebarDemo2({children}:any) {
     { label: "Settings", icon: <IconSettings className="h-5 w-5" />, page: "settings", href: "/settings" },
     { label: "Become a creator", icon: <PlusIcon className="h-5 w-5" />, page: "creator", href: "/creator" }
   ]
+  const router = useRouter();
 
   return (
     <div
@@ -34,7 +51,7 @@ export function SidebarDemo2({children}:any) {
             <Logo />
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <button key={idx} onClick={() => setSelectedPage(link.page)}>
+                <button key={idx} onClick={() => router.push(link.href)}>
                   <SidebarLink link={link} />
                 </button>
               ))}
@@ -42,9 +59,20 @@ export function SidebarDemo2({children}:any) {
           </div>
         </SidebarBody>
       </Sidebar>
-      <div className="flex-1 h-full overflow-y-auto p-4 bg-black rounded-xl">
-        {children}
-      </div>
+     <div className="h-full w-full gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900 overflow-auto">
+           <div className="flex justify-between">
+             <div className="text-white">
+             Connecting.
+             </div>
+             <div className="relative z-50">
+               <WalletMultiButtonDynamic />
+             </div>
+           </div>
+           
+           <div className="mt-6">
+           {children}
+           </div>
+         </div>
     </div>
   );
 }

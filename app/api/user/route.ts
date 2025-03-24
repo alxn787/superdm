@@ -1,42 +1,26 @@
-import prisma from "@/app/db";
+import { prisma } from "@/app/db";
+
 
 export async function POST(req: Request) {
   try {
     const { publicKey } = await req.json();
 
     if (!publicKey) {
-      return new Response(JSON.stringify({ error: "Missing publicKey" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return Response.json({ error: "Missing publicKey" }, { status: 400 });
     }
 
-    // Try to find an existing user
-    let dbUser = await prisma.user.findUnique({
+    let dbUser = await prisma.user.findFirst({
       where: { publicKey },
     });
 
-    // If user does not exist, create a new one
     if (!dbUser) {
       dbUser = await prisma.user.create({
-        data: {
-          publicKey,
-          SuperCost: 10,
-        },
+        data: { publicKey },
       });
     }
-
-    return new Response(JSON.stringify(dbUser), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-
+    return Response.json(JSON.stringify(dbUser), { status: 200 });
   } catch (error) {
     console.error("Database error:", error);
-
-    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

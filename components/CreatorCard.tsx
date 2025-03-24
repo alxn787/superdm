@@ -1,13 +1,19 @@
 "use client";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 export function CreatorCard({
   creator,
 }: {
-  creator: { name: string; image: string; description: string; link: string };
-}) {
+  creator: { name: string; image: string; description: string; id: string };
+})
+ {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push(`/message/${creator.id}`);
+  };
   return (
-    <div className="h-72 w-72 group/card m-1">
+    <div className="h-72 w-72 group/card m-1" onClick={()=>{handleClick()}}>
       <div
         className={cn(
           "relative mx-auto flex h-[300px] w-[300px] max-w-sm flex-col justify-end overflow-hidden rounded-md p-4 shadow-xl cursor-pointer bg-cover bg-center"

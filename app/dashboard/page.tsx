@@ -21,6 +21,6 @@ export default function Dashboard() {
         }
     },[connected])
     return (
-     <SidebarDemo/>
+        <div className=" h-screen"> Dashboard</div>
     );
 }

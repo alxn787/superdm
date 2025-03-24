@@ -4,10 +4,12 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import dynamic from "next/dynamic";
 import Profile from "@/app/profile/page";
 import Explore from "@/app/explore/page";
+import { usePathname } from "next/navigation";
 
 export const DashboardComponent = ({ selectedPage }: { selectedPage: string }) => {
   const [user, setUser] = useState(null);
   const wallet = useWallet();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!wallet.publicKey) return; 

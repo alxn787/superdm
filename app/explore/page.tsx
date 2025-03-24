@@ -5,44 +5,44 @@ export default function Explore (){
         {
             name: "Author Name 1",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
-            description: "Author description",
-            link: "https://www.example.com",
+            description: "Author descriptionjhbd",
+            id: "fjdhbjdbvkdfbkvbdfkj",
         },
         {
             name: "Author Name 2",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
             description: "Author description",
-            link: "https://www.example.com",
+            id: "fjdhbjdbvkdfbkvbdfkj",
         },
         {
             name: "Author Name 3",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
             description: "Author description",
-            link: "https://www.example.com",
+            id: "httpwesdvcejkrve",
         },  
          {
             name: "Author Name 4",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
             description: "Author description",
-            link: "https://www.example.com",
+            id: "fjdhbjdbvkdfbkfvdfvbdfkj",
         },
         {
             name: "Author Name 5",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
             description: "Author description",
-            link: "https://www.example.com",
+            id: "fjdhbjdbvkdfhnhhbkvbdfkj",
         },
         {
             name: "Author Name 6",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
             description: "Author description",
-            link: "https://www.example.com",
+            id: "fjdhbjdbvkdfbkdfdfgdvbdfkj",
         },
          {
             name: "Author Name 7",
             image: "https://images.unsplash.com/photo-1544077960-604201fe74bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1651&q=80",
             description: "Author description",  
-            link: "https://www.example.com",
+            id: "fjdhbjdbvkdfhfnhnugbkvbdfkj",
         },
     ];
     return (

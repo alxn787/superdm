@@ -7,7 +7,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
-  id        String @id @default(uuid())
-  publicKey String @unique
+  id                String          @id @default(uuid())
+  PublicKey         String          
+  creatorProfile    CreatorProfile?
+  sentSuperchats    Superchat[]     @relation("SentSuperchats")
+}
+
+
+model CreatorProfile {
+  id                String      @id @default(uuid())
+  userId            String      @unique
+  publicKey         String
+  user              User        @relation(fields: [userId], references: [id])
+  name              String
+  email             String      
+  bio               String?
+  profileImage      String?
+  receivedSuperchats Superchat[] @relation("ReceivedSuperchats")
+}
+
+
+model Superchat {
+  id                String      @id @default(uuid())
+  senderId          String
+  sender            User        @relation("SentSuperchats", fields: [senderId], references: [id])
+  receiverId        String
+  receiver          CreatorProfile @relation("ReceivedSuperchats", fields: [receiverId], references: [id])
+  message           String
 }

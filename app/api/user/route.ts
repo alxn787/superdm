@@ -10,12 +10,12 @@ export async function POST(req: Request) {
     }
 
     let dbUser = await prisma.user.findFirst({
-      where: { publicKey },
+      where: { PublicKey: publicKey },
     });
 
     if (!dbUser) {
       dbUser = await prisma.user.create({
-        data: { publicKey },
+        data: { PublicKey: publicKey }, 
       });
     }
     return Response.json(JSON.stringify(dbUser), { status: 200 });

@@ -15,15 +15,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 
 export function SidebarDemo2({children}:any) {
-    const { wallet, connected} = useWallet();
-
-
-    useEffect(() => {   
-        if(!connected){
-            router.push('/');    
-        }
-    },[])
-
 
    const WalletMultiButtonDynamic = dynamic(
       async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,

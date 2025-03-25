@@ -1,21 +1,19 @@
 import dynamic from 'next/dynamic';
-import { GlowingEffect } from './ui/glowing-effect';
-import { HoverBorderGradient } from './hover-border-gradient';
-import { GlowingEffectDemo } from './demo';
 import { Button } from './moving-border';
 import { useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { redirect } from "next/navigation";
-import axios from 'axios';
+import { useRouter } from "next/navigation";
+
 
 
 export default function Landing() {
 
-     const { wallet, connected } = useWallet();
+     const { connected } = useWallet();
+     const router = useRouter();
 
       useEffect(() => {
         if(connected){
-            redirect('/dashboard');
+            router.push('/profile');
         }
       },[connected])
 

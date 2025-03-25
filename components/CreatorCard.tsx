@@ -3,14 +3,14 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 export function CreatorCard({
-  creator,
+  creator
 }: {
   creator: { name: string; image: string; description: string; id: string };
 })
  {
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/message/${creator.id}`);
+    router.push(`/creatorprofile/${creator.id}`);
   };
   return (
     <div className="h-72 w-72 group/card m-1" onClick={()=>{handleClick()}}>

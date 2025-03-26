@@ -1,17 +1,36 @@
 'use client';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { redirect } from "next/navigation";
 import { CreatorCard } from "@/components/CreatorCard";
+import axios from "axios";
 
 export default function Explore (){
-  const { wallet, connected} = useWallet();
+
+    interface Creator {
+    name: string;
+    publicKey: string;
+    profileImage: string;
+    email: string;
+    bio: string;
+    id: string;
+    userId: string;
+  }
+  const { connected} = useWallet();
+  const[Creators, setCreators] = useState<Creator[]>([]);
 
       useEffect(() => {
           if(!connected){
               redirect('/');
           }
+          getCreatorsFromDb();
       },[connected])
+
+      async function getCreatorsFromDb() {
+        const res = await axios.get(`/api/allcreators`);
+        setCreators(res.data);
+        console.log(res.data);
+      }
 
     const creators = [
         {
@@ -60,10 +79,10 @@ export default function Explore (){
     return (
         <div>
           <div className="font-bold text-center text-2xl mb-8">
-            Find your Favorite Creators
+            Find your Favorite Creators 
           </div>
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-            {creators.map((creator, index) => (
+            {Creators.map((creator, index) => (
               <CreatorCard key={index} creator={creator} />
             ))}
           </div>

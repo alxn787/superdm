@@ -13,8 +13,9 @@ export default function Test() {
            <div className="bg-neutral-800 p-6 sm:p-5 rounded-lg w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-3xl flex flex-col items-center">
 
                 {/* Center-aligned Super DM */}
-                <div className="text-white/70 text-lg sm:text-xl font-semibold mb-5 text-center">
-                        Super DM 
+                <div className=" text-lg sm:text-xl font-semibold mb-5 text-center">
+                        <span className="text-white/70 text-lg sm:text-xl font-semibold "> Super</span>
+                        <span className=" text-lg sm:text-xl font-semibold text-[#FF4D4D]"> DM</span>
                 </div>
 
                 <div className="border border-neutral-600 bg-neutral-900 rounded-lg flex items-center px-5 py-2 w-full">
@@ -23,6 +24,7 @@ export default function Test() {
                         placeholder="Type your message..."
                         rows={3}
                     />
+                    <button className="ml-2 px-4 py-2 bg-[#4f46e5] hover:bg-[#4f46e5]/70 text-white rounded-lg">Send</button>
                 </div>
             </div>
         </div>

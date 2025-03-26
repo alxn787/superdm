@@ -24,6 +24,7 @@
     "psql": "^0.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "resend": "^4.1.2",
     "tailwind-merge": "^3.0.2"
   },
   "devDependencies": {

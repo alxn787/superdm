@@ -15,7 +15,7 @@ export default function Landing() {
         if(connected){
             router.push('/explore');
         }
-      },[connected])
+      },[connected,router])
 
 
      const WalletMultiButtonDynamic = dynamic(

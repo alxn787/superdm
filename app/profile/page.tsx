@@ -18,7 +18,7 @@ export default function Profile() {
         } else {
            getUserFromDb();
         }
-    }, [connected]);
+    }, [connected,router,getUserFromDb]);
     async function getUserFromDb() {
         try {
             const res = await axios.post("/api/getcreator", {

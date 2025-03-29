@@ -1,9 +1,10 @@
 'use client';
+/* eslint-disable*/
 import { CreatorInput } from "@/components/CreatorInput";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
@@ -25,10 +26,10 @@ export default function BecomeACreator() {
             publicKey: wallet?.adapter.publicKey?.toString(),
         };
         try {
-            const res = await axios.post("/api/creator", creatorData);
+            await axios.post("/api/creator", creatorData);
             toast.success("Creator created successfully!");
         } catch (error) {
-            toast.error("Error creating creator");
+            toast.error("Error creating creator " + error);
         }
 
     }

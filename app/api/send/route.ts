@@ -5,7 +5,7 @@ import { Resend } from 'resend';
 
 
 export async function POST(req: NextRequest) {
-    const resend = new Resend('re_YcFK1ueG_G1rHBfuaPwWTSaCyNaf5ap4n'); 
+    const resend = new Resend(process.env.RESEND_API_KEY);
     try {
         const { name, message, email, transactionSignature } = await req.json();
 
@@ -27,6 +27,6 @@ export async function POST(req: NextRequest) {
         }
         return NextResponse.json(data);
     } catch (error) {
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ error: error }, { status: 500 });
     }
 }

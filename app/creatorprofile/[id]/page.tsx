@@ -87,14 +87,14 @@ export default function CreatorProfile() {
                 transactionSignature: txSignature,
             });
     
-            const res = await axios.post(`/api/send`, {
+            await axios.post(`/api/send`, {
                 email: creator?.email,
                 name: creator?.name,
                 message: message,
                 transactionSignature: txSignature,
             });
 
-            const res2 = await axios.post(`/api/createsuperdm`, {
+            await axios.post(`/api/createsuperdm`, {
                 senderId: user?.id,
                 receiverId: creator?.id,
                 message: message,

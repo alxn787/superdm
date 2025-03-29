@@ -1,11 +1,8 @@
 "use client";
-import { CreatorCard } from "@/components/CreatorCard";
 import GradientCard from "@/components/DetailsCard";
-import DetailsCard from "@/components/DetailsCard";
 import { ProfileCard } from "@/components/ui/profilecard";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 

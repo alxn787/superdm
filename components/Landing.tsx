@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 
 export default function Landing() {
 
-     const { wallet, connected } = useWallet();
+     const { connected } = useWallet();
      const router = useRouter();
 
       useEffect(() => {

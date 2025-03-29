@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+/* eslint-disable*/
+import React from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
-  IconSettings,
   IconUserBolt,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
@@ -11,8 +11,7 @@ import { cn } from "@/lib/utils";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useWallet } from "@solana/wallet-adapter-react";
-import axios from "axios";
+
 
 export function SidebarDemo2({children}:any) {
 

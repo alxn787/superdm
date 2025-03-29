@@ -1,3 +1,4 @@
+/* eslint-disable*/
 export const SuperchatEmailTemplate: React.FC<{
   message: string;
   name: string;

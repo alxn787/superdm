@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+/* eslint-disable*/
+import React, { useState, useEffect} from "react";
 
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";

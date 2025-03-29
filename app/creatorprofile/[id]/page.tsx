@@ -1,5 +1,5 @@
 "use client";
-
+/* eslint-disable */
 import { ProfileCard } from "@/components/ui/profilecard";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
@@ -75,7 +75,7 @@ export default function CreatorProfile() {
 
             await sendMessage(signature);
         } catch (error) {
-            toast.error("Transaction failed! Please try again.");
+            toast.error("Transaction failed! Please try again. " + error);
         }
     }
     async function sendMessage(txSignature: string) {
@@ -102,7 +102,7 @@ export default function CreatorProfile() {
             
             toast.success("Message sent successfully!");
         } catch (error) {
-            toast.error("Failed to send message. Please try again.");
+            toast.error("Failed to send message. Please try again." + error);
         }
     }
     

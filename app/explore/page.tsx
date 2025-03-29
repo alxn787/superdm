@@ -17,28 +17,14 @@ export default function Explore (){
     userId: string;
   }
   const[Creators, setCreators] = useState<Creator[]>([]);
-  const { wallet, connected} = useWallet();
-  const [user, setUser] = useState<{ id: string; PublicKey: string } | null>(null);
+  const { connected} = useWallet();
 
       useEffect(() => {
           if(!connected){
               redirect('/');
           }
-          getuserFromDb();
           getCreatorsFromDb();
       },[connected])
-
-      async function getuserFromDb() {
-        try {
-          const res = await axios.post("/api/user", {
-            publicKey: wallet?.adapter.publicKey?.toString(),
-          });
-          const user = res.data
-          setUser(user);
-        } catch (error) {
-          console.error("Error fetching user:", error);
-        }
-      }
 
       async function getCreatorsFromDb() {
         const res = await axios.get(`/api/allcreators`);

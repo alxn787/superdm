@@ -3,60 +3,79 @@
 import { ProfileCard } from "@/components/ui/profilecard";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Connection, Transaction, SystemProgram, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import toast from "react-hot-toast";
+import { SendButton } from "@/components/SendButton";
 
 
 export default function CreatorProfile() {
-    const [creator, setCreator] = useState<{ id: string; userId: string; name: string; publicKey: string; email: string; bio: string; profileImage: string; }>();
+    const [creator, setCreator] = useState<{ id: string; userId: string; name: string; publicKey: string; email: string; bio: string; profileImage: string; superCost: string;  }>();
     const [message, setMessage] = useState("");
-
+    const [user, setUser] = useState<{ id: string; PublicKey: string } | null>(null);
     const params = useParams();
-    const creatorName = params?.id as string;
-    const wallet = useWallet();
+    const creatorName = decodeURIComponent(params?.id as string);
+    console.log(creatorName);
+    const { wallet, connected } = useWallet();
+    const router = useRouter();
 
     useEffect(() => {
+        if(!connected){
+            router.push("/");
+        }
         getCreatorFromDb();
+        getuserFromDb();
     }, []);
 
+    async function getuserFromDb() {
+        if (!wallet?.adapter.publicKey) {
+            return;
+        }
+    
+        try {
+            const res = await axios.post(`/api/user`, { publicKey: wallet.adapter.publicKey.toString() });
+            setUser(res.data);
+        } catch (error) {
+            console.error("Error fetching user:", error);
+        }
+    }
+    
+
     async function getCreatorFromDb() {
-        const res = await axios.post(`/api/creator`, { name: creatorName });
+        const res = await axios.post(`/api/getcreator`, { name: creatorName });
         setCreator(res.data);
+        console.log(res.data);
     }
 
     async function sendTransaction() {
-        if (!wallet.connected || !wallet.publicKey) {
-            alert("Please connect your wallet first!");
+        if (!connected || !wallet?.adapter.publicKey) {
+            toast.error("Please connect your wallet first!");
             return;
         }
 
         if (!creator?.publicKey) {
-            alert("Creator's public key is missing!");
+           toast.error("Creator's public key is missing!");
             return;
         }
 
         try {
             const connection = new Connection("https://api.devnet.solana.com");
-
             const transaction = new Transaction().add(
                 SystemProgram.transfer({
-                    fromPubkey: wallet.publicKey,
+                    fromPubkey: wallet.adapter.publicKey,
                     toPubkey: new PublicKey('FP4mUAwWEGbp7A45LULzxcWF2usBw7SeUj2L4M1SYiub'),
-                    lamports: 0.01 * LAMPORTS_PER_SOL, // 0.1 SOL
+                    lamports:Number(creator?.superCost) * LAMPORTS_PER_SOL,
                 })
             );
 
-            const signature = await wallet.sendTransaction(transaction, connection);
-            console.log("Transaction Signature:", signature);
-
-            alert(`Transaction successful! Signature: ${signature}`);
+            const signature = await wallet.adapter.sendTransaction(transaction, connection);
+            toast.success(`Transaction successful!`);
 
 
             await sendMessage(signature);
         } catch (error) {
-            console.error("Transaction failed:", error);
-            alert("Transaction failed! Please try again.");
+            toast.error("Transaction failed! Please try again.");
         }
     }
     async function sendMessage(txSignature: string) {
@@ -74,12 +93,16 @@ export default function CreatorProfile() {
                 message: message,
                 transactionSignature: txSignature,
             });
-    
-            console.log("✅ Response from /api/send:", res.data);
-            alert("Message sent successfully!");
+
+            const res2 = await axios.post(`/api/createsuperdm`, {
+                senderId: user?.id,
+                receiverId: creator?.id,
+                message: message,
+            });
+            
+            toast.success("Message sent successfully!");
         } catch (error) {
-            console.error("❌ Failed to send message:", error);
-            alert("Failed to send message. Please try again.");
+            toast.error("Failed to send message. Please try again.");
         }
     }
     
@@ -118,12 +141,8 @@ export default function CreatorProfile() {
                         rows={4}
                         onChange={(e) => setMessage(e.target.value)}
                     />
-                    <button 
-                    className="mt-4 px-6 py-2 bg-[#4f46e5] hover:bg-[#4f46e5]/70 text-white rounded-lg w-full sm:w-auto"
-                    onClick={()=>sendTransaction()}
-                    >
-                        Send
-                    </button>
+
+                    <SendButton onclick={sendTransaction} superCost={creator?.superCost}/>
                 </div>
             </div>
         </div>

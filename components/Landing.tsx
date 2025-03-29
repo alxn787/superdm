@@ -8,12 +8,12 @@ import { useRouter } from "next/navigation";
 
 export default function Landing() {
 
-     const { connected } = useWallet();
+     const { wallet, connected } = useWallet();
      const router = useRouter();
 
       useEffect(() => {
         if(connected){
-            router.push('/profile');
+            router.push('/explore');
         }
       },[connected])
 

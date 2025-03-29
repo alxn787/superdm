@@ -1,4 +1,5 @@
 import { prisma } from "@/app/db";
+import { NextResponse } from "next/server";
 
 
 export async function POST(req: Request) {
@@ -18,7 +19,7 @@ export async function POST(req: Request) {
         data: { PublicKey: publicKey }, 
       });
     }
-    return Response.json(JSON.stringify(dbUser), { status: 200 });
+    return new NextResponse(JSON.stringify(dbUser), { status: 200 });
   } catch (error) {
     console.error("Database error:", error);
     return Response.json({ error: "Internal Server Error" }, { status: 500 });

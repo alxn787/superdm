@@ -24,7 +24,6 @@ export function SidebarDemo2({children}:any) {
   const links = [
     { label: "Explore", icon: <SearchIcon className="h-5 w-5" />, page: "explore", href: "/explore" },
     { label: "Profile", icon: <IconUserBolt className="h-5 w-5" />, page: "profile", href: "/profile" },
-    { label: "Settings", icon: <IconSettings className="h-5 w-5" />, page: "settings", href: "/settings" },
     { label: "Become a creator", icon: <PlusIcon className="h-5 w-5" />, page: "creator", href: "/creator" }
   ]
   const router = useRouter();
@@ -43,7 +42,7 @@ export function SidebarDemo2({children}:any) {
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
                 <button key={idx} onClick={() => router.push(link.href)}>
-                  <SidebarLink link={link} />
+                  <SidebarLink className="hover:bg-[#393839] p-2 rounded-md" link={link} />
                 </button>
               ))}
             </div>

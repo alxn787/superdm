@@ -26,6 +26,7 @@ model CreatorProfile {
   email             String      
   bio               String?
   profileImage      String?
+  superCost         Float?        @default(0)
   receivedSuperchats Superchat[] @relation("ReceivedSuperchats")
 }
 

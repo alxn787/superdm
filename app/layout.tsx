@@ -5,6 +5,7 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { SidebarDemo2 } from "@/components/side2";
 import { usePathname } from "next/navigation";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,10 +35,22 @@ export default function RootLayout({
       >
         <Providers>
           {isHomePage ? ( 
-            children // Only wrap Providers for page.tsx
+            children 
           ) : (
             <SidebarDemo2>
-              {children} {/* Wrap everything else in SidebarDemo2 */}
+              <Toaster 
+                position="top-right" 
+                reverseOrder={false} 
+                toastOptions={{
+                  style: {
+                    background: "#333",
+                    color: "#fff",
+                    padding: "10px",
+                    borderRadius: "5px",
+                  },
+                }}
+              />
+                {children}
             </SidebarDemo2>
           )}
         </Providers>

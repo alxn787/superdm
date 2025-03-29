@@ -1,4 +1,5 @@
 'use client';
+/*eslint-disable*/
 import { useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { redirect } from "next/navigation";
@@ -17,14 +18,28 @@ export default function Explore (){
     userId: string;
   }
   const[Creators, setCreators] = useState<Creator[]>([]);
-  const { connected} = useWallet();
+  const { wallet, connected} = useWallet();
+  const [user, setUser] = useState<{ id: string; PublicKey: string } | null>(null);
 
       useEffect(() => {
           if(!connected){
               redirect('/');
           }
+          getuserFromDb();
           getCreatorsFromDb();
       },[connected])
+
+      async function getuserFromDb() {
+        try {
+          const res = await axios.post("/api/user", {
+            publicKey: wallet?.adapter.publicKey?.toString(),
+          });
+          const user = res.data
+          setUser(user);
+        } catch (error) {
+          console.error("Error fetching user:", error);
+        }
+      }
 
       async function getCreatorsFromDb() {
         const res = await axios.get(`/api/allcreators`);

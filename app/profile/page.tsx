@@ -3,6 +3,7 @@ import GradientCard from "@/components/DetailsCard";
 import { ProfileCard } from "@/components/ui/profilecard";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
+import { get } from "http";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -10,7 +11,9 @@ import { useEffect, useState } from "react";
 export default function Profile() {
     const [creatorProfile, setCreatorProfile] = useState<{ id: string; userId: string; name: string; publicKey: string; email: string; bio: string; profileImage: string; superCost: string; } | null>(null);
     const { connected, wallet } = useWallet();
+    const [messages, setMessages] = useState<{ id: string; senderId: string; recieverId: string; message: string; }[]>([]);
     const router = useRouter();
+
 
     useEffect(() => {
         if (!connected) {
@@ -18,7 +21,22 @@ export default function Profile() {
         } else {
            getUserFromDb();
         }
-    }, [connected,router,getUserFromDb]);
+    }, [connected,router]);
+
+    useEffect(() => {
+        if (creatorProfile?.id) {
+            getmessages();
+        }
+    }, [creatorProfile?.id]);
+
+    async function getmessages() {
+        const res = await axios.post(`/api/getmessages`, {
+            creatorId: creatorProfile?.id,
+        });
+        setMessages(res.data);
+        console.log(res.data);
+    }
+
     async function getUserFromDb() {
         try {
             const res = await axios.post("/api/getcreator", {

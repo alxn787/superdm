@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { init } from "next/dist/compiled/webpack/webpack";
+import { ShieldCloseIcon, XIcon } from "lucide-react";
 
 export default function Profile() {
     const [creatorProfile, setCreatorProfile] = useState<{ id: string; userId: string; name: string; publicKey: string; email: string; bio: string; profileImage: string; superCost: string; } | null>(null);
@@ -24,7 +24,13 @@ export default function Profile() {
         }
     }, [connected, router]);
 
-    async function getmessages(type: "received" | "sent") {
+    useEffect(() => {
+        if (creatorProfile) {
+            getmessages("received"); // Fetch messages without opening modal
+        }
+    }, [creatorProfile]);
+
+    async function getmessages(type: "received" | "sent", openModal = false) {
         if (!creatorProfile?.id) return;
 
         try {
@@ -40,7 +46,9 @@ export default function Profile() {
                 setModalTitle("Your Sent SuperDms");
             }
 
-            setIsOpen(true); 
+            if (openModal) {
+                setIsOpen(true);
+            }
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
@@ -74,32 +82,29 @@ export default function Profile() {
                     
                     <div className="text-white/70 text-sm sm:text-md md:text-lg font-medium mb-10 break-words text-center max-w-3xl w-full px-4"></div>
 
-                    {/* Cards Section */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 max-w-2xl gap-10">
-                        <GradientCard title1="Total Earnings" title2="69" />
-                        <GradientCard title1="SuperDms received" title2="69" onClick={() => getmessages("received")} />
-                        <GradientCard title1="SuperDms sent" title2="69" onClick={() => getmessages("sent")} />
-                        <GradientCard title1="Biggest SuperFan" title2="69"  />
+                        <GradientCard title1="Total Earnings" title2={messages.length * Number(creatorProfile?.superCost)} />
+                        <GradientCard title1="SuperDms received" title2={messages.length} onClick={() => getmessages("received", true)} />
+                        <GradientCard title1="SuperDms sent" onClick={() => getmessages("sent", true)} />
+                        <GradientCard title1="Biggest SuperFan" />
                     </div>
 
-                    {/* Modal - Opens when isOpen is true */}
                     {isOpen && (
                         <motion.div
-                        initial= {{ opacity: 0 }}
+                        initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5}}
+                        transition={{ duration: 0.5 }}
                         className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[999] flex items-center justify-center">
                             <div className="relative bg-black bg-opacity-90 w-full max-w-2xl 
                                         flex flex-col items-center justify-start rounded-lg p-4 text-center 
                                         overflow-y-auto max-h-[500px] z-[1000] shadow-xl ml-32 border border-[#FF4D4D] border-opacity-30">
                                 
-                                {/* Close Button */}
                                 <button 
                                     onClick={() => setIsOpen(false)} 
                                     className="absolute top-4 right-4 text-white/70 hover:text-white bg-neutral-800 hover:bg-[#FF4D4D]
                                             p-2 rounded-full w-8 h-8 transition duration-300 flex justify-center items-center"
                                 >
-                                    ✕
+                                    <XIcon/>
                                 </button>
 
                                 <div className="text-lg font-semibold text-white/70 mb-4">

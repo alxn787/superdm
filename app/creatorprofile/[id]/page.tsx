@@ -26,7 +26,7 @@ export default function CreatorProfile() {
         }
         getCreatorFromDb();
         getuserFromDb();
-    }, []);
+    }, [connected, router]);
 
     async function getuserFromDb() {
         if (!wallet?.adapter.publicKey) {

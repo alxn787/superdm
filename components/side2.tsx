@@ -70,10 +70,7 @@ export function SidebarDemo2({children}:any) {
         </SidebarBody>
       </Sidebar>
      <div className="h-full w-full gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900 overflow-auto">
-           <div className="flex justify-between">
-             <div className="text-white">
-             Connecting.
-             </div>
+           <div className="flex justify-end">
              <div className="relative z-50">
                <WalletMultiButtonDynamic />
              </div>

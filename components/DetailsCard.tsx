@@ -12,7 +12,7 @@ interface GradientCardProps {
 const GradientCard = ({ title1, title2, className, onClick }: GradientCardProps) => {
   return (
     <motion.div
-      className={`relative overflow-hidden rounded-xl w-full dark ${className}`}
+      className={`relative overflow-hidden rounded-xl w-full dark cursor-pointer ${className}`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       initial={{y:15, opacity: 0 }}

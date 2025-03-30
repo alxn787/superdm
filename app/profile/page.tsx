@@ -5,6 +5,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { init } from "next/dist/compiled/webpack/webpack";
 
 export default function Profile() {
     const [creatorProfile, setCreatorProfile] = useState<{ id: string; userId: string; name: string; publicKey: string; email: string; bio: string; profileImage: string; superCost: string; } | null>(null);
@@ -82,7 +84,11 @@ export default function Profile() {
 
                     {/* Modal - Opens when isOpen is true */}
                     {isOpen && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[999] flex items-center justify-center">
+                        <motion.div
+                        initial= {{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5}}
+                        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[999] flex items-center justify-center">
                             <div className="relative bg-black bg-opacity-90 w-full max-w-2xl 
                                         flex flex-col items-center justify-start rounded-lg p-4 text-center 
                                         overflow-y-auto max-h-[500px] z-[1000] shadow-xl ml-32 border border-[#FF4D4D] border-opacity-30">
@@ -113,7 +119,7 @@ export default function Profile() {
                                     <div className="text-white/50 text-lg">No messages found.</div>
                                 )}
                             </div>
-                        </div>
+                        </motion.div>
                     )}
 
                 </div>

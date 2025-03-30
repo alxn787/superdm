@@ -75,9 +75,9 @@ export default function Profile() {
                     {/* Cards Section */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 max-w-2xl gap-10">
                         <GradientCard title1="Total Earnings" title2="69" />
-                        <GradientCard title1="SuperDms received" title2="69" onClick={() => getmessages("received")} />
-                        <GradientCard title1="SuperDms sent" title2="69" onClick={() => getmessages("sent")} />
-                        <GradientCard title1="Biggest SuperFan" title2="69" />
+                        <GradientCard title1="SuperDms received" title2="69" onClick={() => getmessages("received")} className="cusror-pointer" />
+                        <GradientCard title1="SuperDms sent" title2="69" onClick={() => getmessages("sent")} className="cusror-pointer" />
+                        <GradientCard title1="Biggest SuperFan" title2="69" className="cusror-pointer" />
                     </div>
 
                     {/* Modal - Opens when isOpen is true */}

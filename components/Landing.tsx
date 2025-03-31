@@ -21,7 +21,7 @@ export default function Landing() {
     );
   
     return (
-        <div className="flex flex-col items-center min-h-screen w-full max-w-screen-lg px-4 mx-auto">
+        <div className="flex flex-col items-center justify-start h-screen w-full max-w-screen-lg px-4 mx-auto overflow-y-auto">
           {/* Main Content */}
           <div className="flex flex-col items-center flex-grow w-full">
             <div className="h-16"></div>

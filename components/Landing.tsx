@@ -43,7 +43,7 @@ export default function Landing() {
       
             <div className="h-6"></div>
       
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-4 w-full justify-center items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-4 w-full justify-center items-center  text-center place-items-center">
               <Button className="bg-black hover:bg-gradient-to-b from-black via-black to-cyan-400/20 rounded-sm p-6 flex flex-col items-center text-center h-full">
                 <img src="/solana.svg" alt="logo" className="w-8 h-8 rounded-full mb-3" />
                 <div className="text-white font-bold text-lg">Secure and Fast</div>

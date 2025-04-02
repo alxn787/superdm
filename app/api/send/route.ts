@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         }
 
         const { data, error } = await resend.emails.send({
-            from: 'Superdm <onboarding@resend.dev>',
+            from: 'Superdm <onboarding@superdm.xyz>',
             to: [email],
             subject: 'New SuperDM',
             react:await SuperchatEmailTemplate({message,name,transactionSignature}),

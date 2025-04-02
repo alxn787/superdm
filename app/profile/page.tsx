@@ -6,31 +6,49 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import {XIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 
 export default function Profile() {
-    const [creatorProfile, setCreatorProfile] = useState<{ id: string; userId: string; name: string; publicKey: string; email: string; bio: string; profileImage: string; superCost: string; } | null>(null);
+    const [creatorProfile, setCreatorProfile] = useState<{ 
+        id: string; userId: string; name: string; publicKey: string; 
+        email: string; bio: string; profileImage: string; superCost: string; 
+    } | null>(null);
+    
     const { connected, wallet } = useWallet();
-    const [messages, setMessages] = useState<{ id: string; senderId: string; recieverId: string; message: string; }[]>([]);
+    const [receivedMessages, setReceivedMessages] = useState<{ 
+        id: string; senderId: string; receiverId: string; message: string; 
+    }[]>([]);
+    const [sentMessages, setSentMessages] = useState<{ 
+        id: string; senderId: string; receiverId: string; message: string; 
+    }[]>([]);
+    
+    const [totalEarnings, setTotalEarnings] = useState<number>(0);
+    const [biggestSuperFan, setBiggestSuperFan] = useState<string | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [modalTitle, setModalTitle] = useState("Your SuperDms"); 
+    const [activeTab, setActiveTab] = useState<"earnings" | "received" | "sent" | "superfan" | null>(null);
     const router = useRouter();
 
     useEffect(() => {
         if (!connected) {
-            router.push("/"); 
+            router.push("/");
         } else {
-           getUserFromDb();
+            getUserFromDb();
         }
     }, [connected, router]);
 
     useEffect(() => {
         if (creatorProfile) {
-            getmessages("received"); // Fetch messages without opening modal
+            getMessages();
         }
     }, [creatorProfile]);
 
-    async function getmessages(type: "received" | "sent", openModal = false) {
+    useEffect(() => {
+        if (creatorProfile) {
+            getEarnings();
+        }
+    }, [receivedMessages]); 
+
+    async function getMessages() {
         if (!creatorProfile?.id) return;
 
         try {
@@ -38,20 +56,18 @@ export default function Profile() {
                 creatorId: creatorProfile?.id,
             });
 
-            if (type === "received") {
-                setMessages(res.data.receivedMessages);
-                setModalTitle("Your Received SuperDms");
-            } else {
-                setMessages(res.data.sentMessages);
-                setModalTitle("Your Sent SuperDms");
-            }
-
-            if (openModal) {
-                setIsOpen(true);
-            }
+            setReceivedMessages(res.data.receivedMessages);
+            setSentMessages(res.data.sentMessages);
         } catch (error) {
             console.error("Error fetching messages:", error);
         }
+    }
+
+    function getEarnings() {
+        if (!creatorProfile?.superCost) return;
+
+        const earnings = parseFloat(creatorProfile.superCost) * receivedMessages.length;
+        setTotalEarnings(earnings);
     }
 
     async function getUserFromDb() {
@@ -61,7 +77,6 @@ export default function Profile() {
             });
             const creator = res.data;
             setCreatorProfile(creator);
-            console.log(creator);
         } catch (error) {
             console.error("Error fetching creator:", error);
         }
@@ -75,76 +90,105 @@ export default function Profile() {
                         <ProfileCard creator={creatorProfile?.profileImage || "https://www.jammable.com/cdn-cgi/image/width=3840,quality=25,format=webp/https://imagecdn.voicify.ai/models/7b8e5953-3f47-40a3-9fa6-db2e39aa383c.png"} />
                     </div>
 
-                    {creatorProfile?.name ? <h1 className="text-2xl font-bold">{creatorProfile?.name}</h1> : <h1 className="text-2xl font-bold">Anonymous</h1>}
-                    <div className="font-semibold text-2xl mb-6 text-center w-full"></div>
+                    <h1 className="text-2xl font-bold">{creatorProfile?.name || "Anonymous"}</h1>
 
-                    {creatorProfile?.bio ? <div>{creatorProfile?.bio}</div> : <div className="border border-neutral-800 rounded-xl cursor-pointer p-3 hover:bg-white/10" onClick={() => { router.push("/creator") }}>Become a creator</div>}
-                    
-                    <div className="text-white/70 text-sm sm:text-md md:text-lg font-medium mb-10 break-words text-center max-w-3xl w-full px-4"></div>
+                    {creatorProfile?.bio ? <div className="mt-5">{creatorProfile?.bio}</div> : (
+                        <div className="border border-neutral-800 rounded-xl cursor-pointer p-3 hover:bg-white/10 mt-5" onClick={() => { router.push("/creator") }}>
+                            Become a creator
+                        </div>
+                    )}
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 max-w-2xl gap-10">
-                        <GradientCard title1="Total Earnings" title2={messages.length * Number(creatorProfile?.superCost)} />
-                        <GradientCard title1="SuperDms received" title2={messages.length} onClick={() => getmessages("received", true)} />
-                        <GradientCard title1="SuperDms sent" onClick={() => getmessages("sent", true)} />
-                        <GradientCard title1="Biggest SuperFan" />
+                    {/* Buttons for opening modal */}
+                    <div className="grid grid-cols-2 gap-4 w-full max-w-xl mt-10">
+                        <button 
+                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700 transition"
+                            onClick={() => { setActiveTab("earnings"); setIsOpen(true); }}
+                        >
+                            Total Earnings
+                        </button>
+                        <button 
+                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700  transition"
+                            onClick={() => { setActiveTab("received"); setIsOpen(true); }}
+                        >
+                            Received Messages
+                        </button>
+                        <button 
+                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700  transition"
+                            onClick={() => { setActiveTab("sent"); setIsOpen(true); }}
+                        >
+                            Sent Messages
+                        </button>
+                        <button 
+                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700  transition"
+                            onClick={() => { setActiveTab("superfan"); setIsOpen(true); }}
+                        >
+                            Biggest SuperFan
+                        </button>
                     </div>
 
+                    {/* Modal */}
                     {isOpen && (
                         <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5 }}
-                        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[999] flex items-center justify-center">
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                            className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[999] flex items-center justify-center"
+                        >
                             <div className="relative bg-black bg-opacity-90 w-full max-w-2xl 
                                         flex flex-col items-center justify-start rounded-lg p-4 text-center 
-                                        overflow-y-auto max-h-[500px] z-[1000] shadow-xl ml-32 border border-[#FF4D4D] border-opacity-30">
-                                
+                                        overflow-y-auto max-h-[500px] z-[1000] shadow-xl border border-[#FF4D4D] border-opacity-30"
+                            >
                                 <button 
                                     onClick={() => setIsOpen(false)} 
                                     className="absolute top-4 right-4 text-white/70 hover:text-white bg-neutral-800 hover:bg-[#FF4D4D]
                                             p-2 rounded-full w-8 h-8 transition duration-300 flex justify-center items-center"
                                 >
-                                    <XIcon/>
+                                    <XIcon />
                                 </button>
 
-                                <div className="text-lg font-semibold text-white/70 mb-4">
-                                    {modalTitle}
-                                </div>
                                 
-                                {messages.length > 0 ? (
-                                    messages.map((message, index) => (
-                                        <div key={index} className="flex flex-col items-center w-full max-w-3xl h-full overflow-y-auto">                            
-                                            <div className="text-xl font-semibold bg-gradient-to-r from-neutral-900 via-black through-black to-neutral-900 text-white/100
-                                                w-full h-24 mb-2 rounded-xl flex items-center justify-center">
-                                                {message.message}
+                                <div className="text-lg font-semibold text-white/70 mb-4">
+                                    {activeTab === "earnings" && "Total Earnings"}
+                                    {activeTab === "received" && "Received Messages"}
+                                    {activeTab === "sent" && "Sent Messages"}
+                                    {activeTab === "superfan" && "Biggest SuperFan"}
+                                </div>
+
+                                <div className="text-white w-full p-4">
+                                    {activeTab === "earnings" && (
+                                        <div className="text-2xl font-bold flex justify-center items-center">
+                                            <div className="w-6 h-6 m-3">
+                                                <img src="/solana.svg" className="w-6  h-6" />
+                                            </div>
+                                            <div className="text-white/70">
+                                            {totalEarnings.toFixed(2)} Sol
                                             </div>
                                         </div>
-                                    ))
-                                ) : (
-                                    <div className="text-white/50 text-lg">No messages found.</div>
-                                )}
+                                    )}
+                                    {activeTab === "received" && (
+                                        <div className="text-center">
+                                            {receivedMessages.map((msg,idx) => (
+                                                <div key={idx} className="p-2 border border-neutral-800 rounded-lg mb-2 hover:bg-neutral-900 text-white/70">{msg.message}</div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {activeTab === "sent" && (
+                                        <div className="text-left">
+                                            {sentMessages.map((msg,idx) => (
+                                                <div key={idx} className="p-2 border-b border-gray-700">{msg.message}</div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {activeTab === "superfan" && (
+                                        <p className="text-2xl font-bold">{biggestSuperFan || "No superfan yet 😢"}</p>
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     )}
-
                 </div>
             ) : (
-                <div className="flex flex-col items-center w-full max-w-3xl">
-                    <div className="flex justify-center mb-5">
-                        <div className="h-24 w-24 rounded-full bg-gray-800 animate-pulse"></div>
-                    </div>
-                    <div className="h-6 w-48 bg-gray-800 animate-pulse rounded mb-6"></div>
-        
-                    <div className="h-4 w-3/4 bg-gray-800 animate-pulse rounded mb-10"></div>
-                    <div className="bg-neutral-800 p-6 rounded-lg w-full max-w-3xl flex flex-col items-center">
-                        <div className="h-6 w-40 bg-gray-800 animate-pulse rounded mb-4"></div>
-        
-                        <div className="border border-neutral-600 bg-neutral-900 rounded-lg flex flex-col items-center w-full p-4">
-                            <div className="h-20 w-full bg-gray-800 animate-pulse rounded-lg mb-4"></div>
-                            <div className="h-10 w-24 bg-gray-800 animate-pulse rounded-lg"></div>
-                        </div>
-                    </div>
-                </div>
+                <div className="flex items-center justify-center h-screen text-white">Connecting Wallet...</div>
             )}
         </div>
     );

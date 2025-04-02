@@ -2,8 +2,7 @@
 export const SuperchatEmailTemplate: React.FC<{
   message: string;
   name: string;
-  transactionSignature: string;
-}> = ({ message, name ,transactionSignature}) => (
+}> = ({ message, name }) => (
   <div
     style={{
       fontFamily: 'Arial, sans-serif',
@@ -30,9 +29,6 @@ export const SuperchatEmailTemplate: React.FC<{
     >
       "{message}"
     </blockquote>
-    <div>
-      <p>Transaction Signature: {transactionSignature}</p>
-    </div>
 
   </div>
 );

@@ -7,9 +7,9 @@ import { Resend } from 'resend';
 export async function POST(req: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     try {
-        const { name, message, email, transactionSignature } = await req.json();
+        const { name, message, email} = await req.json();
 
-        if (!email || !name || !message || !transactionSignature) {
+        if (!email || !name || !message ) {
             return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
         }
 
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
             from: 'Superdm <onboarding@superdm.xyz>',
             to: [email],
             subject: 'New SuperDM',
-            react:await SuperchatEmailTemplate({message,name,transactionSignature}),
+            react:await SuperchatEmailTemplate({message,name}),
         });
 
         if (error) {

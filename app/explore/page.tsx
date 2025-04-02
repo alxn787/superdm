@@ -53,11 +53,11 @@ export default function Explore (){
 
     return (
         <div className="flex flex-col justify-start items-center gap-2">
-           <div className="flex justify-start items-center bg-[#FF4D4D] rounded-full w-full max-w-2xl px-5 mt-2 mb-6">
-              <SearchIcon className="text-white"/>
+           <div className="flex justify-start items-center bg-neutral-700 rounded-full w-full max-w-2xl px-5 mt-2 mb-6">
+              <SearchIcon className="text-white/70"/>
               <textarea
               placeholder="Search Creators"
-              className="bg-[#FF4D4D] text-white placeholder-white outline-none text-base sm:text-lg resize-none overflow-auto break-words rounded-full text-center px-3 w-full max-w-xl size-9 mt-2 "
+              className="bg-neutral-700 text-white/70 placeholder-white/70 outline-none text-base sm:text-lg resize-none overflow-auto break-words rounded-full text-center px-3 w-full max-w-xl size-9 mt-2 "
               onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>

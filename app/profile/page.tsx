@@ -1,5 +1,4 @@
 "use client";
-import GradientCard from "@/components/DetailsCard";
 import { ProfileCard } from "@/components/ui/profilecard";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
@@ -58,6 +57,7 @@ export default function Profile() {
 
             setReceivedMessages(res.data.receivedMessages);
             setSentMessages(res.data.sentMessages);
+            setBiggestSuperFan(res.data.biggestSuperFan);
         } catch (error) {
             console.error("Error fetching messages:", error);
         }

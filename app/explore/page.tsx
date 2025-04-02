@@ -53,7 +53,7 @@ export default function Explore (){
 
     return (
         <div className="flex flex-col justify-start items-center gap-2">
-           <div className="flex justify-start items-center bg-[#FF4D4D] rounded-full w-full max-w-2xl px-5 mt-2">
+           <div className="flex justify-start items-center bg-[#FF4D4D] rounded-full w-full max-w-2xl px-5 mt-2 mb-6">
               <SearchIcon className="text-white"/>
               <textarea
               placeholder="Search Creators"

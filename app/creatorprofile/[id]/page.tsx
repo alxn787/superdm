@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Connection, Transaction, SystemProgram, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import toast from "react-hot-toast";
 import { SendButton } from "@/components/SendButton";
+import { ArrowLeftIcon, MoveLeftIcon } from "lucide-react";
 
 
 export default function CreatorProfile() {
@@ -109,6 +110,9 @@ export default function CreatorProfile() {
 
     return (
         <div className="h-screen flex justify-center px-4">
+            <div className="top-5 left-5 relative  h-8 w-8 rounded-lg hover:bg-neutral-800 flex items-center justify-center" onClick={() => router.back()}>
+                <ArrowLeftIcon className="text-white/70 h-5 w-5" />
+            </div>
                 {creator ? (
         <div className="flex flex-col items-center w-full max-w-3xl">
             {/* Profile Image */}

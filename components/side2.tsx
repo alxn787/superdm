@@ -71,12 +71,11 @@ export function SidebarDemo2({children}:any) {
       </Sidebar>
      <div className="h-full w-full gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900 overflow-auto">
            <div className="flex justify-end">
-             <div className="relative z-50">
+             <div className="fixed z-50">
                <WalletMultiButtonDynamic />
              </div>
            </div>
-           
-           <div className="mt-6">
+           <div>
            {children}
            </div>
          </div>

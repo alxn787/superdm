@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { XIcon } from "lucide-react";
+import { ArrowLeftIcon, XIcon } from "lucide-react";
 
 export default function Profile() {
     const [creatorProfile, setCreatorProfile] = useState<{ 
@@ -84,6 +84,9 @@ export default function Profile() {
 
     return (
         <div className="h-screen flex justify-center">
+            <div className="top-5 left-5 relative  h-8 w-8 rounded-lg hover:bg-neutral-800 flex items-center justify-center" onClick={() => router.back()}>
+                <ArrowLeftIcon className="text-white/70 h-5 w-5" />
+            </div>
             {wallet ? (
                 <div className="flex flex-col items-center w-full max-w-3xl">
                     <div className="flex justify-center mb-5">
@@ -99,27 +102,27 @@ export default function Profile() {
                     )}
 
                     {/* Buttons for opening modal */}
-                    <div className="grid grid-cols-2 gap-4 w-full max-w-xl mt-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-xl mt-10">
                         <button 
-                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700 transition"
+                            className="bg-neutral-800 text-white py-4 px-4 rounded-lg hover:bg-neutral-700 transition"
                             onClick={() => { setActiveTab("earnings"); setIsOpen(true); }}
                         >
                             Total Earnings
                         </button>
                         <button 
-                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700  transition"
+                            className="bg-neutral-800 text-white py-4 px-4 rounded-lg hover:bg-neutral-700  transition"
                             onClick={() => { setActiveTab("received"); setIsOpen(true); }}
                         >
-                            Received Messages
+                           SuperDms Received 
                         </button>
                         <button 
-                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700  transition"
+                            className="bg-neutral-800 text-white py-4 px-4 rounded-lg hover:bg-neutral-700  transition"
                             onClick={() => { setActiveTab("sent"); setIsOpen(true); }}
                         >
-                            Sent Messages
+                           SuperDms Sent
                         </button>
                         <button 
-                            className="bg-neutral-800 text-white py-2 px-4 rounded-lg hover:bg-neutral-700  transition"
+                            className="bg-neutral-800 text-white py-4 px-4 rounded-lg hover:bg-neutral-700  transition"
                             onClick={() => { setActiveTab("superfan"); setIsOpen(true); }}
                         >
                             Biggest SuperFan
@@ -134,9 +137,12 @@ export default function Profile() {
                             transition={{ duration: 0.5 }}
                             className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-[999] flex items-center justify-center"
                         >
-                            <div className="relative bg-black bg-opacity-90 w-full max-w-2xl 
+                            <motion.div className="relative bg-black bg-opacity-90 w-full max-w-xl 
                                         flex flex-col items-center justify-start rounded-lg p-4 text-center 
                                         overflow-y-auto max-h-[500px] z-[1000] shadow-xl border border-[#FF4D4D] border-opacity-30"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.5, ease: "easeInOut" }}
                             >
                                 <button 
                                     onClick={() => setIsOpen(false)} 
@@ -183,7 +189,7 @@ export default function Profile() {
                                         <p className="text-2xl font-bold">{biggestSuperFan || "No superfan yet 😢"}</p>
                                     )}
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
                     )}
                 </div>

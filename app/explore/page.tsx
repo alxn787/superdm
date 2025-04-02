@@ -53,13 +53,17 @@ export default function Explore (){
 
     return (
         <div className="flex flex-col justify-start items-center gap-2">
-           <div className="flex justify-start items-center bg-neutral-700 rounded-full w-full max-w-2xl px-5 mt-2 mb-6">
+           <div className="flex justify-start items-center bg-neutral-700 rounded-full w-full max-w-2xl px-5  mb-6">
               <SearchIcon className="text-white/70"/>
               <textarea
               placeholder="Search Creators"
-              className="bg-neutral-700 text-white/70 placeholder-white/70 outline-none text-base sm:text-lg resize-none overflow-auto break-words rounded-full text-center px-3 w-full max-w-xl size-9 mt-2 "
+              className="bg-neutral-700 text-white/70 placeholder-white/70 outline-none text-base sm:textmd resize-none overflow-auto break-words rounded-full px-3 w-full max-w-xl size-9 mt-3 "
               onChange={(e) => setSearchTerm(e.target.value)}
               />
+            </div>
+
+            <div className="items-start text-white/70 text-lg font-bold m-3">
+              Creators For you 
             </div>
          
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">

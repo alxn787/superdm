@@ -28,6 +28,7 @@ export default function BecomeACreator() {
         try {
             await axios.post("/api/creator", creatorData);
             toast.success("Creator created successfully!");
+            router.push('/profile');
         } catch (error) {
             toast.error("Error creating creator " + error);
         }

@@ -5,6 +5,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { redirect } from "next/navigation";
 import { CreatorCard } from "@/components/CreatorCard";
 import axios from "axios";
+import { SearchIcon } from "lucide-react";
 
 export default function Explore (){
 
@@ -20,6 +21,7 @@ export default function Explore (){
   const[Creators, setCreators] = useState<Creator[]>([]);
   const { wallet, connected} = useWallet();
   const [user, setUser] = useState<{ id: string; PublicKey: string } | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
       useEffect(() => {
           if(!connected){
@@ -46,17 +48,26 @@ export default function Explore (){
         setCreators(res.data);
         console.log(res.data);
       }
+
+      const filteredcreators = Creators.filter((creator) => creator.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
     return (
-        <div>
-          <div className="font-bold text-center text-2xl mb-8">
-            Find your Favorite Creators 
-          </div>
+        <div className="flex flex-col justify-start items-center gap-2">
+           <div className="flex justify-start items-center bg-[#FF4D4D] rounded-full w-full max-w-2xl px-5 mt-2">
+              <SearchIcon className="text-white"/>
+              <textarea
+              placeholder="Search Creators"
+              className="bg-[#FF4D4D] text-white placeholder-white outline-none text-base sm:text-lg resize-none overflow-auto break-words rounded-full text-center px-3 w-full max-w-xl size-9 mt-2 "
+              onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+         
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-            {Creators.map((creator, index) => (
+            {filteredcreators.map((creator, index) => (
               <CreatorCard key={index} creator={creator} />
             ))}
           </div>
-        </div>
+        </div> 
       );
       
 }

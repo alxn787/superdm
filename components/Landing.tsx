@@ -102,7 +102,7 @@ export default function Landing() {
       
           {/* Footer */}
           <footer className="w-full py-4 flex justify-center bg-transparent mb-6">
-            <a href="https://github.com/alxn787" target="_blank" className="text-white/60 text-sm">
+            <a href="https://x.com/Alxn787" target="_blank" className="text-white/60 text-sm">
               <div className="flex items-center">
                 <span>Built by alxn787</span>
               </div>
